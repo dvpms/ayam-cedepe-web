@@ -1,26 +1,43 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #faf7f2;
+  --foreground: #1c1917;
+  --brand-red: #c62828;
+  --brand-red-dark: #8e0000;
+  --brand-gold: #f59e0b;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-brand-red: var(--brand-red);
+  --color-brand-red-dark: var(--brand-red-dark);
+  --color-brand-gold: var(--brand-gold);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Ensure no translucent wash on standard containers */
+.solid-card {
+  background-color: #ffffff;
+  border: 2px solid #e7e5e4;
+}
+
+.solid-card-interactive {
+  background-color: #ffffff;
+  border: 2px solid #e7e5e4;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.solid-card-interactive:hover {
+  border-color: #c62828;
 }
