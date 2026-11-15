@@ -1,95 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf7f2;
-  --foreground: #1c1917;
-  --brand-red: #c62828;
-  --brand-red-dark: #8e0000;
-  --brand-gold: #f59e0b;
-  --ease-apple-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --background: #ffffff;
+  --foreground: #171717;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-brand-red: var(--brand-red);
-  --color-brand-red-dark: var(--brand-red-dark);
-  --color-brand-gold: var(--brand-gold);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
-html {
-  scroll-behavior: smooth;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }
 
 body {
-  background-color: var(--background);
+  background: var(--background);
   color: var(--foreground);
-  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-}
-
-/* Apple Typography Optical Sizing & Tracking */
-.apple-display {
-  letter-spacing: -0.03em;
-  line-height: 1.08;
-  font-weight: 900;
-}
-
-.apple-h1 {
-  letter-spacing: -0.025em;
-  line-height: 1.12;
-  font-weight: 800;
-}
-
-.apple-h2 {
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  font-weight: 800;
-}
-
-.apple-h3 {
-  letter-spacing: -0.015em;
-  line-height: 1.25;
-  font-weight: 700;
-}
-
-.apple-label {
-  letter-spacing: 0.05em;
-  font-weight: 800;
-}
-
-/* Apple Fluid Feedback (Instant response on press, spring settle) */
-.apple-press {
-  transition: transform 140ms var(--ease-apple-spring), filter 140ms var(--ease-apple-spring), border-color 140ms ease;
-  will-change: transform;
-}
-
-.apple-press:active {
-  transform: scale(0.97);
-}
-
-/* Solid card interactive state */
-.solid-card-interactive {
-  background-color: #ffffff;
-  border: 2px solid #e7e5e4;
-  transition: transform 200ms var(--ease-apple-spring), border-color 150ms ease, box-shadow 200ms ease;
-}
-
-.solid-card-interactive:hover {
-  border-color: #c62828;
-  transform: translateY(-2px);
-}
-
-/* Accessible Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  .apple-press,
-  .solid-card-interactive {
-    transition: none !important;
-    transform: none !important;
-  }
+  font-family: Arial, Helvetica, sans-serif;
 }
