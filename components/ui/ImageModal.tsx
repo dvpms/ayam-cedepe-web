@@ -35,7 +35,7 @@ export function ImageModal({ isOpen, onClose, imageSrc, imageAlt, title }: Image
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl bg-white border-2 border-stone-200 rounded-3xl p-4 sm:p-6 shadow-2xl"
+        className="animate-modal-pop relative w-full max-w-2xl bg-white border-2 border-stone-200 rounded-3xl p-4 sm:p-6 shadow-2xl"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-center justify-between gap-4 pb-3.5 mb-4 border-b border-stone-200">

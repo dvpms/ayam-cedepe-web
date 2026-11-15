@@ -89,7 +89,7 @@ export function Navbar({ mode = 'landing' }: NavbarProps) {
       <nav aria-label="Navigasi utama" className="bg-white border-b border-stone-200 shadow-xs">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 min-h-16 py-2.5 sm:py-3.5 flex items-center justify-between gap-2.5 sm:gap-4">
           <Link href="/" className="flex items-center gap-2.5 sm:gap-3 min-w-0 min-h-[44px] rounded-xl pr-1 group">
-            <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-stone-200 bg-white overflow-hidden shrink-0">
+            <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-stone-200 bg-white overflow-hidden shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 group-hover:-rotate-6">
               <Image
                 src="/images/logo.png"
                 alt="Logo Ayam Cedepe BSD"
@@ -114,7 +114,7 @@ export function Navbar({ mode = 'landing' }: NavbarProps) {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-sm font-semibold text-stone-700 hover:text-red-700 py-2 transition-colors whitespace-nowrap"
+                  className="relative text-sm font-semibold text-stone-700 hover:text-red-700 py-2 transition-colors whitespace-nowrap after:content-[''] after:absolute after:left-0 after:bottom-0.5 after:h-0.5 after:w-full after:bg-red-700 after:scale-x-0 hover:after:scale-x-100 after:origin-left after:transition-transform after:duration-200"
                 >
                   {link.label}
                 </Link>
@@ -124,23 +124,31 @@ export function Navbar({ mode = 'landing' }: NavbarProps) {
 
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <span
-              className={`hidden md:inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap ${
+              className={`hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap ${
                 isOutletOpen === false
                   ? 'bg-stone-700 text-white'
                   : 'bg-emerald-700 text-white'
               }`}
             >
-              {isOutletOpen === null
-                ? '10.00 - 21.00 WIB'
-                : isOutletOpen
-                  ? 'Buka Sekarang'
-                  : 'Sedang Tutup'}
+              {isOutletOpen !== false && (
+                <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-300" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+                </span>
+              )}
+              <span>
+                {isOutletOpen === null
+                  ? '10.00 - 21.00 WIB'
+                  : isOutletOpen
+                    ? 'Buka Sekarang'
+                    : 'Sedang Tutup'}
+              </span>
             </span>
 
             {mode === 'landing' ? (
               <Link
                 href="/pesan"
-                className="min-h-[44px] inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2 rounded-xl bg-red-700 hover:bg-red-800 text-white text-xs sm:text-sm font-bold shadow-sm transition-colors whitespace-nowrap"
+                className="min-h-[44px] inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2 rounded-xl bg-red-700 hover:bg-red-800 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-white text-xs sm:text-sm font-bold shadow-sm transition-[transform,background-color] duration-200 whitespace-nowrap"
               >
                 <WhatsAppIcon className="w-4 h-4 shrink-0" />
                 <span className="sm:hidden">Pesan</span>
@@ -149,7 +157,7 @@ export function Navbar({ mode = 'landing' }: NavbarProps) {
             ) : (
               <Link
                 href="/"
-                className="min-h-[44px] inline-flex items-center px-3.5 sm:px-4 py-2 rounded-xl bg-white hover:bg-stone-100 text-stone-900 text-xs sm:text-sm font-bold border-2 border-stone-200 transition-colors whitespace-nowrap"
+                className="min-h-[44px] inline-flex items-center px-3.5 sm:px-4 py-2 rounded-xl bg-white hover:bg-stone-100 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-stone-900 text-xs sm:text-sm font-bold border-2 border-stone-200 transition-[transform,background-color] duration-200 whitespace-nowrap"
               >
                 <span className="sm:hidden">Beranda</span>
                 <span className="hidden sm:inline">Kembali ke Beranda</span>
@@ -162,7 +170,7 @@ export function Navbar({ mode = 'landing' }: NavbarProps) {
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-nav-drawer"
               aria-label={isMobileMenuOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
-              className="lg:hidden min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-xl bg-white border border-stone-200 text-stone-800 hover:bg-stone-100 cursor-pointer transition-colors"
+              className="lg:hidden min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-xl bg-white border border-stone-200 text-stone-800 hover:bg-stone-100 active:scale-95 cursor-pointer transition-[transform,background-color] duration-200"
             >
               {isMobileMenuOpen ? (
                 <CloseIcon className="w-5 h-5" />
@@ -176,7 +184,7 @@ export function Navbar({ mode = 'landing' }: NavbarProps) {
         {isMobileMenuOpen && (
           <div
             id="mobile-nav-drawer"
-            className="lg:hidden bg-white border-t border-stone-200 px-4 py-4 space-y-3"
+            className="lg:hidden animate-drawer-down bg-white border-t border-stone-200 px-4 py-4 space-y-3"
           >
             <div className="px-3.5 py-2.5 rounded-xl bg-stone-100 text-xs font-semibold text-stone-800">
               Jam Operasional: {openStatusLabel}
@@ -187,7 +195,7 @@ export function Navbar({ mode = 'landing' }: NavbarProps) {
                   <Link
                     href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center min-h-[44px] px-4 rounded-xl bg-[#FAF8F5] hover:bg-stone-100 font-semibold text-stone-900 border border-stone-200 transition-colors"
+                    className="flex items-center min-h-[44px] px-4 rounded-xl bg-[#FAF8F5] hover:bg-stone-100 hover:translate-x-1 font-semibold text-stone-900 border border-stone-200 transition-[transform,background-color] duration-200"
                   >
                     {link.label}
                   </Link>

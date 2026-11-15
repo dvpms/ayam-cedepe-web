@@ -30,9 +30,9 @@ export default function OrderPage() {
     <>
       <Navbar mode="order" />
       <main className="flex-1 bg-[#FAF8F5]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div className="animate-hero-fade-up max-w-6xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <span className="inline-block bg-red-700 text-white text-xs font-bold px-3.5 py-1.5 rounded-full mb-3">
+            <span className="inline-block animate-badge-float bg-red-700 text-white text-xs font-bold px-3.5 py-1.5 rounded-full mb-3">
               PEMESANAN VIA WHATSAPP
             </span>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight">
@@ -45,7 +45,7 @@ export default function OrderPage() {
           </div>
           <Link
             href="/"
-            className="hidden md:inline-flex min-h-[44px] self-start md:self-auto items-center px-4 py-2.5 rounded-xl bg-white hover:bg-stone-100 text-stone-900 text-sm font-bold border border-stone-200 transition-colors"
+            className="hidden md:inline-flex min-h-[44px] self-start md:self-auto items-center px-4 py-2.5 rounded-xl bg-white hover:bg-stone-100 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-stone-900 text-sm font-bold border border-stone-200 transition-[transform,background-color] duration-200"
           >
             Kembali ke Halaman Utama
           </Link>

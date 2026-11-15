@@ -191,3 +191,116 @@ textarea:focus-visible {
 .animate-cta-attention {
   animation: ctaPulseGlow 2.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
+
+@keyframes curtainWipeRed {
+  0% {
+    transform: translate3d(0, 0%, 0);
+  }
+  100% {
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+@keyframes curtainWipeGold {
+  0% {
+    transform: translate3d(0, 0%, 0);
+  }
+  100% {
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes badgeFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -3px, 0) scale(1.03);
+  }
+}
+
+@keyframes chiliWiggle {
+  0%, 100% {
+    transform: rotate(-8deg) scale(1);
+  }
+  50% {
+    transform: rotate(10deg) scale(1.14);
+  }
+}
+
+@keyframes numberBump {
+  0% {
+    transform: scale(0.8);
+  }
+  55% {
+    transform: scale(1.22);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes drawerSlideDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.animate-curtain-red {
+  animation: curtainWipeRed 0.38s cubic-bezier(0.76, 0, 0.24, 1) 0.04s forwards;
+}
+
+.animate-curtain-gold {
+  animation: curtainWipeGold 0.46s cubic-bezier(0.76, 0, 0.24, 1) 0.09s forwards;
+}
+
+.animate-page-enter {
+  animation: pageEnter 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+.animate-badge-float {
+  animation: badgeFloat 2.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.animate-chili-wiggle {
+  animation: chiliWiggle 1.6s ease-in-out infinite;
+}
+
+.animate-number-bump {
+  animation: numberBump 0.26s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-drawer-down {
+  animation: drawerSlideDown 0.24s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-modal-pop {
+  animation: modalPop 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}

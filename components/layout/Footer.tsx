@@ -1,15 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { InstagramIcon, MapPinIcon, WhatsAppIcon } from '@/components/ui/CulinaryIcons';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { OUTLET_CONFIG } from '@/config/site';
 
 export function Footer() {
   return (
     <footer className="bg-stone-900 text-stone-100 border-t border-stone-800">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-        <div className="md:col-span-5">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="relative w-12 h-12 rounded-full bg-white overflow-hidden shrink-0">
+        <ScrollReveal variant="fade-up" delayMs={0} className="md:col-span-5">
+          <div className="flex items-center gap-3 mb-4 group">
+            <div className="relative w-12 h-12 rounded-full bg-white overflow-hidden shrink-0 transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-6">
               <Image
                 src="/images/logo.png"
                 alt="Logo Ayam Cedepe"
@@ -31,9 +32,9 @@ export function Footer() {
             {OUTLET_CONFIG.subTagline} Menyajikan ayam goreng bumbu bawang meresap, bawang goreng
             utuh, kremesan renyah, dan sambal bawang segar di BSD City.
           </p>
-        </div>
+        </ScrollReveal>
 
-        <div className="md:col-span-4 space-y-2.5 text-sm">
+        <ScrollReveal variant="fade-up" delayMs={90} className="md:col-span-4 space-y-2.5 text-sm">
           <h3 className="text-sm font-bold text-amber-400 uppercase tracking-wider">
             Lokasi Outlet
           </h3>
@@ -45,14 +46,14 @@ export function Footer() {
           <div className="pt-2">
             <Link
               href="/pesan"
-              className="inline-flex items-center px-4 py-2 rounded-xl bg-red-700 hover:bg-red-800 text-white text-xs font-bold transition-colors"
+              className="inline-flex items-center px-4 py-2 rounded-xl bg-red-700 hover:bg-red-800 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] text-white text-xs font-bold transition-[transform,background-color] duration-200"
             >
               Pesan Online Sekarang
             </Link>
           </div>
-        </div>
+        </ScrollReveal>
 
-        <div className="md:col-span-3 space-y-3 text-sm">
+        <ScrollReveal variant="fade-up" delayMs={180} className="md:col-span-3 space-y-3 text-sm">
           <h3 className="text-sm font-bold text-amber-400 uppercase tracking-wider">
             Kontak &amp; Sosial Media
           </h3>
@@ -62,7 +63,7 @@ export function Footer() {
                 href={`https://wa.me/${OUTLET_CONFIG.whatsappNumber}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 font-semibold text-white hover:text-amber-400 transition-colors"
+                className="inline-flex items-center gap-2 font-semibold text-white hover:text-amber-400 hover:translate-x-1 transition-[transform,color] duration-200"
               >
                 <WhatsAppIcon className="w-4 h-4 text-emerald-400" />
                 <span>WA: {OUTLET_CONFIG.phoneDisplay}</span>
@@ -73,7 +74,7 @@ export function Footer() {
                 href={OUTLET_CONFIG.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 font-semibold text-white hover:text-amber-400 transition-colors"
+                className="inline-flex items-center gap-2 font-semibold text-white hover:text-amber-400 hover:translate-x-1 transition-[transform,color] duration-200"
               >
                 <InstagramIcon className="w-4 h-4 text-amber-400" />
                 <span>{OUTLET_CONFIG.instagramHandle}</span>
@@ -84,14 +85,14 @@ export function Footer() {
                 href={OUTLET_CONFIG.googleMapsShortUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 font-semibold text-white hover:text-amber-400 transition-colors"
+                className="inline-flex items-center gap-2 font-semibold text-white hover:text-amber-400 hover:translate-x-1 transition-[transform,color] duration-200"
               >
                 <MapPinIcon className="w-4 h-4 text-red-400" />
                 <span>Buka Google Maps</span>
               </a>
             </li>
           </ul>
-        </div>
+        </ScrollReveal>
       </div>
 
       <div className="border-t border-stone-800 py-5 px-4 text-center text-xs font-medium text-stone-400">
