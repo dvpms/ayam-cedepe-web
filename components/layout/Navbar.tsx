@@ -3,6 +3,7 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { AnimatePresence, motion } from 'framer-motion';
 import { CloseIcon, MenuBarsIcon, WhatsAppIcon } from '@/components/ui/CulinaryIcons';
 import { OUTLET_CONFIG } from '@/config/site';
 import { checkOutletOpenStatus } from '@/lib/utils';
@@ -181,29 +182,37 @@ export function Navbar({ mode = 'landing' }: NavbarProps) {
           </div>
         </div>
 
-        {isMobileMenuOpen && (
-          <div
-            id="mobile-nav-drawer"
-            className="lg:hidden animate-drawer-down bg-white border-t border-stone-200 px-4 py-4 space-y-3"
-          >
-            <div className="px-3.5 py-2.5 rounded-xl bg-stone-100 text-xs font-semibold text-stone-800">
-              Jam Operasional: {openStatusLabel}
-            </div>
-            <ul className="flex flex-col gap-2">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center min-h-[44px] px-4 rounded-xl bg-[#FAF8F5] hover:bg-stone-100 hover:translate-x-1 font-semibold text-stone-900 border border-stone-200 transition-[transform,background-color] duration-200"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <AnimatePresence initial={false}>
+          {isMobileMenuOpen && (
+            <motion.div
+              id="mobile-nav-drawer"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 28 }}
+              className="lg:hidden overflow-hidden bg-white border-t border-stone-200"
+            >
+              <div className="px-4 py-4 space-y-3">
+                <div className="px-3.5 py-2.5 rounded-xl bg-stone-100 text-xs font-semibold text-stone-800">
+                  Jam Operasional: {openStatusLabel}
+                </div>
+                <ul className="flex flex-col gap-2">
+                  {navLinks.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center min-h-[44px] px-4 rounded-xl bg-[#FAF8F5] hover:bg-stone-100 hover:translate-x-1 font-semibold text-stone-900 border border-stone-200 transition-[transform,background-color] duration-200"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
     </header>
   );

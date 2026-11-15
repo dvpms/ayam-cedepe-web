@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { motion, type TargetAndTransition } from 'framer-motion';
 
 type RevealVariant = 'fade-up' | 'fade-left' | 'fade-right' | 'zoom-in';
 
@@ -11,18 +11,11 @@ interface ScrollRevealProps {
   className?: string;
 }
 
-const HIDDEN_CLASSES: Record<RevealVariant, string> = {
-  'fade-up': 'opacity-0 translate-y-6',
-  'fade-left': 'opacity-0 -translate-x-6',
-  'fade-right': 'opacity-0 translate-x-6',
-  'zoom-in': 'opacity-0 scale-95',
-};
-
-const VISIBLE_CLASSES: Record<RevealVariant, string> = {
-  'fade-up': 'opacity-100 translate-y-0',
-  'fade-left': 'opacity-100 translate-x-0',
-  'fade-right': 'opacity-100 translate-x-0',
-  'zoom-in': 'opacity-100 scale-100',
+const INITIAL_STATES: Record<RevealVariant, TargetAndTransition> = {
+  'fade-up': { opacity: 0, y: 28 },
+  'fade-left': { opacity: 0, x: -28 },
+  'fade-right': { opacity: 0, x: 28 },
+  'zoom-in': { opacity: 0, scale: 0.94 },
 };
 
 export function ScrollReveal({
@@ -31,36 +24,20 @@ export function ScrollReveal({
   delayMs = 0,
   className = '',
 }: ScrollRevealProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(node);
-        }
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -36px 0px' },
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div
-      ref={ref}
-      style={{ transitionDelay: `${delayMs}ms` }}
-      className={`transition-[transform,opacity] duration-600 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-        isVisible ? VISIBLE_CLASSES[variant] : HIDDEN_CLASSES[variant]
-      } ${className}`}
+    <motion.div
+      initial={INITIAL_STATES[variant]}
+      whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.12, margin: '0px 0px -36px 0px' }}
+      transition={{
+        type: 'spring',
+        stiffness: 260,
+        damping: 24,
+        delay: delayMs / 1000,
+      }}
+      className={className}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }

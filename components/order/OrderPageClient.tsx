@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   ChiliFlameIcon,
   MinusIcon,
@@ -230,12 +231,15 @@ export function OrderPageClient() {
                           >
                             <MinusIcon className="w-4 h-4" />
                           </button>
-                          <span
+                          <motion.span
                             key={qty}
-                            className="animate-number-bump font-mono text-sm font-bold text-stone-900 tabular-nums"
+                            initial={{ scale: 0.78 }}
+                            animate={{ scale: 1 }}
+                            transition={{ type: 'spring', stiffness: 460, damping: 20 }}
+                            className="font-mono text-sm font-bold text-stone-900 tabular-nums"
                           >
                             {qty} porsi
-                          </span>
+                          </motion.span>
                           <button
                             type="button"
                             onClick={() => incrementMenu(pkg.id)}
@@ -284,20 +288,33 @@ export function OrderPageClient() {
                       type="button"
                       onClick={() => setSelectedCategory(cat.id)}
                       aria-pressed={isActive}
-                      className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-bold border hover:-translate-y-0.5 active:scale-95 transition-[transform,background-color,border-color] duration-200 cursor-pointer ${
+                      className={`relative overflow-hidden min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-bold border hover:-translate-y-0.5 active:scale-95 transition-[transform,color,border-color] duration-200 cursor-pointer ${
                         isActive
-                          ? 'bg-stone-900 text-white border-stone-900'
+                          ? 'bg-[#FAF8F5] text-white border-stone-900'
                           : 'bg-[#FAF8F5] text-stone-700 border-stone-200 hover:bg-stone-100'
                       }`}
                     >
-                      {cat.label}
+                      {isActive && (
+                        <motion.span
+                          layoutId="orderCategoryPill"
+                          transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                          className="absolute inset-0 bg-stone-900"
+                          aria-hidden="true"
+                        />
+                      )}
+                      <span className="relative z-10">{cat.label}</span>
                     </button>
                   );
                 })}
               </div>
 
               {filteredAddOns.length === 0 ? (
-                <div className="bg-[#FAF8F5] border border-stone-200 rounded-2xl p-6 text-center animate-hero-fade-up">
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+                  className="bg-[#FAF8F5] border border-stone-200 rounded-2xl p-6 text-center"
+                >
                   <p className="font-bold text-stone-900 mb-1">
                     Menu &ldquo;{searchQuery}&rdquo; tidak ditemukan
                   </p>
@@ -311,66 +328,75 @@ export function OrderPageClient() {
                   >
                     Tampilkan Semua Menu
                   </button>
-                </div>
+                </motion.div>
               ) : (
                 <div className="divide-y divide-stone-200">
-                  {filteredAddOns.map((item, idx) => {
-                    const qty = quantities[item.id] ?? 0;
-                    return (
-                      <div
-                        key={`${selectedCategory}-${item.id}`}
-                        style={{ animationDelay: `${idx * 40}ms` }}
-                        className="animate-hero-fade-up py-3.5 first:pt-0 last:pb-0 flex items-center justify-between gap-3"
-                      >
-                        <div className="min-w-0">
-                          <div className="flex flex-wrap items-center gap-2">
-                            <span className="text-sm sm:text-base font-bold text-stone-900">
-                              {item.name}
+                  <AnimatePresence mode="popLayout">
+                    {filteredAddOns.map((item) => {
+                      const qty = quantities[item.id] ?? 0;
+                      return (
+                        <motion.div
+                          layout
+                          key={item.id}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, scale: 0.96 }}
+                          transition={{ type: 'spring', stiffness: 320, damping: 26 }}
+                          className="py-3.5 first:pt-0 last:pb-0 flex items-center justify-between gap-3"
+                        >
+                          <div className="min-w-0">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span className="text-sm sm:text-base font-bold text-stone-900">
+                                {item.name}
+                              </span>
+                              {Boolean(item.spicyLevel && item.spicyLevel > 0) && (
+                                <span className="inline-flex items-center gap-1 bg-amber-400 text-stone-950 text-[11px] font-bold px-2 py-0.5 rounded-full">
+                                  <ChiliFlameIcon className="w-3 h-3 text-red-700 animate-chili-wiggle" />
+                                  <span>Pedas</span>
+                                </span>
+                              )}
+                            </div>
+                            <span className="block font-mono text-xs font-bold text-red-700 mt-0.5">
+                              {formatRupiah(item.price)}
                             </span>
-                            {Boolean(item.spicyLevel && item.spicyLevel > 0) && (
-                              <span className="inline-flex items-center gap-1 bg-amber-400 text-stone-950 text-[11px] font-bold px-2 py-0.5 rounded-full">
-                                <ChiliFlameIcon className="w-3 h-3 text-red-700 animate-chili-wiggle" />
-                                <span>Pedas</span>
-                              </span>
-                            )}
                           </div>
-                          <span className="block font-mono text-xs font-bold text-red-700 mt-0.5">
-                            {formatRupiah(item.price)}
-                          </span>
-                        </div>
 
-                        <div className="flex items-center gap-1.5 shrink-0">
-                          {qty > 0 && (
-                            <>
-                              <button
-                                type="button"
-                                onClick={() => decrementMenu(item.id)}
-                                aria-label={`Kurangi ${item.name}`}
-                                className="min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-xl bg-stone-900 hover:bg-red-700 active:scale-90 text-white cursor-pointer transition-[transform,background-color] duration-150"
-                              >
-                                <MinusIcon className="w-4 h-4" />
-                              </button>
-                              <span
-                                key={qty}
-                                className="animate-number-bump w-7 text-center font-mono text-sm font-bold text-stone-900 tabular-nums"
-                              >
-                                {qty}
-                              </span>
-                            </>
-                          )}
-                          <button
-                            type="button"
-                            onClick={() => incrementMenu(item.id)}
-                            aria-label={`Tambah ${item.name}`}
-                            className="min-w-[44px] min-h-[44px] px-3 inline-flex items-center justify-center gap-1 rounded-xl bg-amber-400 hover:bg-amber-300 active:scale-90 text-stone-950 text-xs font-bold cursor-pointer transition-[transform,background-color] duration-150"
-                          >
-                            <PlusIcon className="w-4 h-4" />
-                            {qty === 0 && <span>Tambah</span>}
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            {qty > 0 && (
+                              <>
+                                <button
+                                  type="button"
+                                  onClick={() => decrementMenu(item.id)}
+                                  aria-label={`Kurangi ${item.name}`}
+                                  className="min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-xl bg-stone-900 hover:bg-red-700 active:scale-90 text-white cursor-pointer transition-[transform,background-color] duration-150"
+                                >
+                                  <MinusIcon className="w-4 h-4" />
+                                </button>
+                                <motion.span
+                                  key={qty}
+                                  initial={{ scale: 0.78 }}
+                                  animate={{ scale: 1 }}
+                                  transition={{ type: 'spring', stiffness: 460, damping: 20 }}
+                                  className="w-7 text-center font-mono text-sm font-bold text-stone-900 tabular-nums"
+                                >
+                                  {qty}
+                                </motion.span>
+                              </>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => incrementMenu(item.id)}
+                              aria-label={`Tambah ${item.name}`}
+                              className="min-w-[44px] min-h-[44px] px-3 inline-flex items-center justify-center gap-1 rounded-xl bg-amber-400 hover:bg-amber-300 active:scale-90 text-stone-950 text-xs font-bold cursor-pointer transition-[transform,background-color] duration-150"
+                            >
+                              <PlusIcon className="w-4 h-4" />
+                              {qty === 0 && <span>Tambah</span>}
+                            </button>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </AnimatePresence>
                 </div>
               )}
             </section>
@@ -409,30 +435,40 @@ export function OrderPageClient() {
                 </div>
               ) : (
                 <div className="space-y-3 mb-5">
-                  {selectedLines.map((line) => (
-                    <div
-                      key={line.item.id}
-                      className="animate-hero-fade-up flex items-center justify-between gap-3 text-sm pb-2.5 border-b border-stone-100"
-                    >
-                      <div>
-                        <span className="block font-bold text-stone-900">{line.item.name}</span>
-                        <span className="block font-mono text-xs text-stone-500 tabular-nums">
-                          {formatRupiah(line.item.price)} x {line.quantity}
+                  <AnimatePresence initial={false}>
+                    {selectedLines.map((line) => (
+                      <motion.div
+                        layout
+                        key={line.item.id}
+                        initial={{ opacity: 0, x: -12 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 12 }}
+                        transition={{ type: 'spring', stiffness: 340, damping: 26 }}
+                        className="flex items-center justify-between gap-3 text-sm pb-2.5 border-b border-stone-100"
+                      >
+                        <div>
+                          <span className="block font-bold text-stone-900">{line.item.name}</span>
+                          <span className="block font-mono text-xs text-stone-500 tabular-nums">
+                            {formatRupiah(line.item.price)} x {line.quantity}
+                          </span>
+                        </div>
+                        <span className="font-mono font-bold text-stone-900 tabular-nums shrink-0">
+                          {formatRupiah(line.item.price * line.quantity)}
                         </span>
-                      </div>
-                      <span className="font-mono font-bold text-stone-900 tabular-nums shrink-0">
-                        {formatRupiah(line.item.price * line.quantity)}
-                      </span>
-                    </div>
-                  ))}
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
                   <div className="flex items-center justify-between pt-2">
                     <span className="text-base font-extrabold text-stone-900">Total Estimasi</span>
-                    <span
+                    <motion.span
                       key={totalAmount}
-                      className="animate-number-bump font-mono text-xl font-extrabold text-red-700 tabular-nums"
+                      initial={{ scale: 0.85 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: 'spring', stiffness: 460, damping: 20 }}
+                      className="font-mono text-xl font-extrabold text-red-700 tabular-nums"
                     >
                       {formatRupiah(totalAmount)}
-                    </span>
+                    </motion.span>
                   </div>
                 </div>
               )}
@@ -522,30 +558,41 @@ export function OrderPageClient() {
         </div>
       </div>
 
-      {totalItems > 0 && (
-        <div className="animate-hero-fade-up fixed bottom-0 inset-x-0 z-40 lg:hidden bg-stone-900 text-white border-t border-stone-700 px-4 py-3">
-          <div className="max-w-xl mx-auto flex items-center justify-between gap-3">
-            <div>
-              <span className="block text-xs font-semibold text-amber-400">
-                {totalItems} item dipilih
-              </span>
-              <span
-                key={totalAmount}
-                className="animate-number-bump block font-mono text-lg font-extrabold tabular-nums"
+      <AnimatePresence>
+        {totalItems > 0 && (
+          <motion.div
+            initial={{ y: 80, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 80, opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 340, damping: 28 }}
+            className="fixed bottom-0 inset-x-0 z-40 lg:hidden bg-stone-900 text-white border-t border-stone-700 px-4 py-3"
+          >
+            <div className="max-w-xl mx-auto flex items-center justify-between gap-3">
+              <div>
+                <span className="block text-xs font-semibold text-amber-400">
+                  {totalItems} item dipilih
+                </span>
+                <motion.span
+                  key={totalAmount}
+                  initial={{ scale: 0.85 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: 'spring', stiffness: 460, damping: 20 }}
+                  className="block font-mono text-lg font-extrabold tabular-nums"
+                >
+                  {formatRupiah(totalAmount)}
+                </motion.span>
+              </div>
+              <a
+                href="#customer-name"
+                className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 active:scale-95 text-white font-bold text-sm shrink-0 transition-[transform,background-color] duration-150"
               >
-                {formatRupiah(totalAmount)}
-              </span>
+                <WhatsAppIcon className="w-4 h-4" />
+                <span>Lanjut Kirim WA</span>
+              </a>
             </div>
-            <a
-              href="#customer-name"
-              className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 active:scale-95 text-white font-bold text-sm shrink-0 transition-[transform,background-color] duration-150"
-            >
-              <WhatsAppIcon className="w-4 h-4" />
-              <span>Lanjut Kirim WA</span>
-            </a>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

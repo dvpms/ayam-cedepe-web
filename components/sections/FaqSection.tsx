@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDownIcon, WhatsAppIcon } from '@/components/ui/CulinaryIcons';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { FAQ_ITEMS, OUTLET_CONFIG } from '@/config/site';
@@ -61,19 +62,22 @@ export function FaqSection() {
                       />
                     </button>
                   </h3>
-                  <div
-                    id={`answer-${item.id}`}
-                    aria-hidden={!isOpen}
-                    className={`grid transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                      isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
-                    }`}
-                  >
-                    <div className="overflow-hidden">
-                      <div className="px-5 py-4 border-t border-stone-200 bg-white text-sm sm:text-base text-stone-700 leading-relaxed">
-                        {item.answer}
-                      </div>
-                    </div>
-                  </div>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        id={`answer-${item.id}`}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ type: 'spring', stiffness: 320, damping: 28 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-5 py-4 border-t border-stone-200 bg-white text-sm sm:text-base text-stone-700 leading-relaxed">
+                          {item.answer}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </ScrollReveal>
             );

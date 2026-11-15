@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ChiliFlameIcon, SearchIcon, WhatsAppIcon } from '@/components/ui/CulinaryIcons';
 import { ImageModal } from '@/components/ui/ImageModal';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
@@ -160,20 +161,33 @@ export function MenuBoardSection() {
                     type="button"
                     onClick={() => setSelectedCategory(cat.id)}
                     aria-pressed={isActive}
-                    className={`min-h-[44px] px-4 py-2 rounded-xl text-sm font-bold border hover:-translate-y-0.5 active:scale-95 transition-[transform,background-color,border-color] duration-200 cursor-pointer ${
+                    className={`relative overflow-hidden min-h-[44px] px-4 py-2 rounded-xl text-sm font-bold border hover:-translate-y-0.5 active:scale-95 transition-[transform,color,border-color] duration-200 cursor-pointer ${
                       isActive
-                        ? 'bg-stone-900 text-white border-stone-900'
+                        ? 'bg-[#FAF8F5] text-white border-stone-900'
                         : 'bg-[#FAF8F5] text-stone-700 border-stone-200 hover:bg-stone-100'
                     }`}
                   >
-                    {cat.label}
+                    {isActive && (
+                      <motion.span
+                        layoutId="menuBoardCategoryPill"
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                        className="absolute inset-0 bg-stone-900"
+                        aria-hidden="true"
+                      />
+                    )}
+                    <span className="relative z-10">{cat.label}</span>
                   </button>
                 );
               })}
             </div>
 
             {filteredAddOns.length === 0 ? (
-              <div className="animate-hero-fade-up bg-[#FAF8F5] border border-stone-200 rounded-2xl p-8 text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+                className="bg-[#FAF8F5] border border-stone-200 rounded-2xl p-8 text-center"
+              >
                 <p className="text-lg font-bold text-stone-900 mb-1.5">
                   Menu &ldquo;{searchQuery}&rdquo; tidak ditemukan
                 </p>
@@ -190,52 +204,58 @@ export function MenuBoardSection() {
                 >
                   Tampilkan Semua Menu
                 </button>
-              </div>
+              </motion.div>
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <div className="lg:col-span-8 divide-y divide-stone-200">
-                  {filteredAddOns.map((item, idx) => (
-                    <div
-                      key={`${selectedCategory}-${item.id}`}
-                      style={{ animationDelay: `${idx * 45}ms` }}
-                      className="animate-hero-fade-up py-4 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:translate-x-1 transition-transform duration-200"
-                    >
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <h4 className="text-base font-bold text-stone-900">{item.name}</h4>
-                          {item.badge && (
-                            <span className="bg-red-700 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">
-                              {item.badge}
-                            </span>
-                          )}
-                          {Boolean(item.spicyLevel && item.spicyLevel > 0) && (
-                            <span
-                              className="inline-flex items-center gap-1 bg-amber-400 text-stone-950 text-[11px] font-bold px-2.5 py-0.5 rounded-full"
-                              title="Pedas"
-                            >
-                              <ChiliFlameIcon className="w-3 h-3 text-red-700 animate-chili-wiggle" />
-                              <span>Pedas</span>
-                            </span>
-                          )}
+                  <AnimatePresence mode="popLayout">
+                    {filteredAddOns.map((item) => (
+                      <motion.div
+                        layout
+                        key={item.id}
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.96 }}
+                        transition={{ type: 'spring', stiffness: 320, damping: 26 }}
+                        className="py-4 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:translate-x-1 transition-transform duration-200"
+                      >
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <h4 className="text-base font-bold text-stone-900">{item.name}</h4>
+                            {item.badge && (
+                              <span className="bg-red-700 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+                                {item.badge}
+                              </span>
+                            )}
+                            {Boolean(item.spicyLevel && item.spicyLevel > 0) && (
+                              <span
+                                className="inline-flex items-center gap-1 bg-amber-400 text-stone-950 text-[11px] font-bold px-2.5 py-0.5 rounded-full"
+                                title="Pedas"
+                              >
+                                <ChiliFlameIcon className="w-3 h-3 text-red-700 animate-chili-wiggle" />
+                                <span>Pedas</span>
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs sm:text-sm text-stone-600 mt-1">{item.description}</p>
                         </div>
-                        <p className="text-xs sm:text-sm text-stone-600 mt-1">{item.description}</p>
-                      </div>
 
-                      <div className="flex items-center justify-between sm:justify-end gap-4 shrink-0">
-                        <div className="text-left sm:text-right">
-                          <span className="block font-mono text-base font-bold text-red-700">
-                            {formatRupiah(item.price)}
-                          </span>
+                        <div className="flex items-center justify-between sm:justify-end gap-4 shrink-0">
+                          <div className="text-left sm:text-right">
+                            <span className="block font-mono text-base font-bold text-red-700">
+                              {formatRupiah(item.price)}
+                            </span>
+                          </div>
+                          <Link
+                            href={`/pesan?menu=${item.id}`}
+                            className="min-h-[44px] inline-flex items-center px-4 py-2 rounded-xl bg-white hover:bg-red-700 hover:-translate-y-0.5 active:scale-95 text-red-700 hover:text-white border-2 border-red-700 text-xs font-bold transition-[transform,background-color,color] duration-200"
+                          >
+                            Pesan
+                          </Link>
                         </div>
-                        <Link
-                          href={`/pesan?menu=${item.id}`}
-                          className="min-h-[44px] inline-flex items-center px-4 py-2 rounded-xl bg-white hover:bg-red-700 hover:-translate-y-0.5 active:scale-95 text-red-700 hover:text-white border-2 border-red-700 text-xs font-bold transition-[transform,background-color,color] duration-200"
-                        >
-                          Pesan
-                        </Link>
-                      </div>
-                    </div>
-                  ))}
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
                 </div>
 
                 <aside className="group lg:col-span-4 bg-[#FAF8F5] border border-stone-200 rounded-2xl p-4">
