@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -45,18 +48,83 @@ function StarburstOrnament({ className }: { className: string }) {
 const DISH_HIGHLIGHTS = [
   {
     id: 'ayam-bawang',
+    featuredInList: true,
+    number: '01',
     title: 'Ayam Ungkep Bawang',
+    shortTag: 'Ayam Ungkep Bawang',
     description: 'Digoreng garing, bumbu meresap sampai ke dalam.',
+    layerSrc: '/images/layer-ayam.png',
+    transformOrigin: '28% 46%',
+    popTransform: 'scale-[1.2] -translate-x-2 -translate-y-3.5 rotate-[-2deg]',
+    hitBoxClass: 'left-[10%] top-[16%] w-[34%] h-[58%] rounded-3xl',
+    badgePosClass: 'left-[4%] top-[8%]',
+    plateTransform: '-rotate-3 scale-[1.01]',
+    redDiscTransform: 'translate-x-4 translate-y-3',
+    goldDiscTransform: '-translate-x-1 translate-y-1 scale-[1.01]',
   },
   {
     id: 'kremesan-bawang',
+    featuredInList: true,
+    number: '02',
     title: 'Kremesan & Bawang Utuh',
+    shortTag: 'Kremesan & Bawang Utuh',
     description: 'Taburan kremes renyah dan siung bawang goreng utuh.',
+    layerSrc: '/images/layer-bawang.png',
+    transformOrigin: '42% 53%',
+    popTransform: 'scale-[1.24] translate-x-1 -translate-y-4 rotate-[2deg]',
+    hitBoxClass: 'left-[28%] top-[36%] w-[25%] h-[25%] rounded-3xl',
+    badgePosClass: 'left-1/2 -translate-x-1/2 top-[6%]',
+    plateTransform: 'rotate-0 scale-[1.02]',
+    redDiscTransform: 'translate-x-3 translate-y-4',
+    goldDiscTransform: 'translate-x-0 -translate-y-1 scale-[1.02]',
+  },
+  {
+    id: 'nasi-putih',
+    featuredInList: false,
+    number: null,
+    title: 'Nasi Putih & Bawang Goreng',
+    shortTag: 'Nasi Putih & Bawang Goreng',
+    description: 'Nasi putih pulen hangat bertabur bawang goreng renyah.',
+    layerSrc: '/images/layer-nasi.png',
+    transformOrigin: '67% 34%',
+    popTransform: 'scale-[1.2] translate-x-2.5 -translate-y-3 rotate-[2deg]',
+    hitBoxClass: 'left-[48%] top-[15%] w-[37%] h-[34%] rounded-full',
+    badgePosClass: 'right-[4%] top-[8%]',
+    plateTransform: 'rotate-2 scale-[1.01]',
+    redDiscTransform: 'translate-x-2 translate-y-4',
+    goldDiscTransform: 'translate-x-1 -translate-y-1 scale-[1.01]',
+  },
+  {
+    id: 'tahu-tempe-timun',
+    featuredInList: false,
+    number: null,
+    title: 'Tahu, Tempe & Lalapan Timun',
+    shortTag: 'Tahu, Tempe & Lalapan Timun',
+    description: 'Tahu dan tempe goreng gurih dengan lalapan timun segar.',
+    layerSrc: '/images/layer-pelengkap.png',
+    transformOrigin: '74% 66%',
+    popTransform: 'scale-[1.2] translate-x-3 -translate-y-2 rotate-[2deg]',
+    hitBoxClass: 'left-[55%] top-[44%] w-[38%] h-[45%] rounded-3xl',
+    badgePosClass: 'right-[4%] bottom-[6%]',
+    plateTransform: 'rotate-3 scale-[1.01]',
+    redDiscTransform: 'translate-x-1.5 translate-y-4',
+    goldDiscTransform: 'translate-x-1.5 translate-y-1 scale-[1.01]',
   },
   {
     id: 'sambal-ulek',
+    featuredInList: true,
+    number: '03',
     title: 'Sambal Bawang Ulek',
+    shortTag: 'Sambal Bawang Ulek',
     description: 'Ulekan cabai rawit dan bawang segar yang pedas nagih.',
+    layerSrc: '/images/layer-sambal.png',
+    transformOrigin: '48% 77%',
+    popTransform: 'scale-[1.26] translate-x-0 -translate-y-4',
+    hitBoxClass: 'left-[33%] top-[61%] w-[26%] h-[28%] rounded-full',
+    badgePosClass: 'left-1/2 -translate-x-1/2 bottom-[4%]',
+    plateTransform: 'rotate-3 scale-[1.01]',
+    redDiscTransform: 'translate-x-2 translate-y-4',
+    goldDiscTransform: 'translate-x-1 translate-y-0 scale-[1.01]',
   },
 ] as const;
 
@@ -78,13 +146,18 @@ const HERO_PACKAGES = [
 ] as const;
 
 export function HeroSection() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  const activeHighlight =
+    activeIndex !== null ? DISH_HIGHLIGHTS[activeIndex] : null;
+
   return (
     <section
       id="hero"
       className="bg-[#FAF8F5] border-b border-stone-200 py-6 sm:py-8 lg:py-4 lg:min-h-[calc(100svh-6.75rem)] flex items-center"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full flex flex-col justify-center">
-        <div className="text-center max-w-3xl mx-auto mb-3 lg:mb-4">
+        <div className="text-center max-w-3xl mx-auto mb-3 lg:mb-4 animate-hero-fade-up">
           <h1 className="text-3xl sm:text-4xl lg:text-[2.5rem] xl:text-[2.75rem] font-extrabold tracking-tight text-stone-900 leading-[1.08]">
             Jagonya{' '}
             <span className="text-red-700">Ayam Goreng Bawang</span>{' '}
@@ -93,22 +166,58 @@ export function HeroSection() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
-          <div className="lg:col-span-3 order-3 lg:order-1 flex flex-col lg:items-end lg:text-right">
+          <div
+            className="lg:col-span-3 order-3 lg:order-1 flex flex-col lg:items-end lg:text-right animate-hero-fade-up"
+            style={{ animationDelay: '140ms' }}
+          >
             <span className="text-[11px] font-extrabold tracking-widest uppercase text-red-700 mb-2">
               Keistimewaan Sajian
             </span>
 
             <div className="w-full divide-y divide-stone-300 border-y border-stone-300 mb-4">
-              {DISH_HIGHLIGHTS.map((item) => (
-                <div key={item.id} className="py-3">
-                  <h2 className="text-sm sm:text-base font-extrabold text-stone-900">
-                    {item.title}
-                  </h2>
-                  <p className="text-xs text-stone-600 leading-relaxed mt-0.5">
-                    {item.description}
-                  </p>
-                </div>
-              ))}
+              {DISH_HIGHLIGHTS.map((item, idx) => {
+                if (!item.featuredInList) return null;
+                const isActive = activeIndex === idx;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onMouseEnter={() => setActiveIndex(idx)}
+                    onMouseLeave={() => setActiveIndex(null)}
+                    onClick={() =>
+                      setActiveIndex((prev) => (prev === idx ? null : idx))
+                    }
+                    aria-pressed={isActive}
+                    className={`w-full text-left lg:text-right py-3 cursor-pointer transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                      isActive ? 'lg:-translate-x-1.5' : ''
+                    }`}
+                  >
+                    <div className="flex items-start lg:flex-row-reverse gap-2.5">
+                      <span
+                        className={`w-6 h-6 rounded-lg text-[11px] font-extrabold flex items-center justify-center shrink-0 border transition-colors duration-200 ${
+                          isActive
+                            ? 'bg-red-700 text-white border-stone-900'
+                            : 'bg-stone-200 text-stone-700 border-stone-300'
+                        }`}
+                      >
+                        {item.number}
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <span
+                          className={`block text-sm sm:text-base font-extrabold transition-colors duration-200 ${
+                            isActive ? 'text-red-700' : 'text-stone-900'
+                          }`}
+                        >
+                          {item.title}
+                        </span>
+                        <span className="block text-xs text-stone-600 leading-relaxed mt-0.5">
+                          {item.description}
+                        </span>
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
 
             <div className="flex flex-wrap items-center lg:justify-end gap-4 text-xs font-semibold text-stone-700">
@@ -134,39 +243,121 @@ export function HeroSection() {
           </div>
 
           <div className="lg:col-span-6 order-1 lg:order-2 animate-plate-reveal flex items-center justify-center">
-            <div className="relative w-full max-w-[330px] sm:max-w-[420px] lg:max-w-[470px] xl:max-w-[500px] aspect-square flex items-center justify-center mx-auto">
+            <div
+              onMouseLeave={() => setActiveIndex(null)}
+              className="animate-float-3d relative w-full max-w-[330px] sm:max-w-[420px] lg:max-w-[470px] xl:max-w-[500px] aspect-square flex items-center justify-center mx-auto"
+            >
               <div
                 aria-hidden="true"
-                className="absolute inset-1 sm:inset-2 rounded-full border-2 border-dashed border-amber-500"
+                className="absolute inset-4 sm:inset-6 rounded-full border-2 border-amber-500 animate-pulse-ring pointer-events-none"
               />
               <div
                 aria-hidden="true"
-                className="absolute w-[84%] h-[84%] rounded-full bg-red-700 translate-x-3 translate-y-3"
+                className="absolute inset-1 sm:inset-2 rounded-full border-2 border-dashed border-amber-500 animate-orbit-spin pointer-events-none"
               />
               <div
                 aria-hidden="true"
-                className="absolute w-[84%] h-[84%] rounded-full bg-amber-400 border-2 border-stone-900"
+                className={`absolute w-[84%] h-[84%] rounded-full bg-red-700 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  activeHighlight ? activeHighlight.redDiscTransform : 'translate-x-3 translate-y-3.5'
+                }`}
+              />
+              <div
+                aria-hidden="true"
+                className={`absolute w-[84%] h-[84%] rounded-full bg-amber-400 border-2 border-stone-900 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  activeHighlight ? activeHighlight.goldDiscTransform : 'translate-x-0 translate-y-0 scale-100'
+                }`}
               />
 
-              <DotGridOrnament className="w-14 h-10 text-red-700 absolute top-0 left-3" />
-              <DotGridOrnament className="w-14 h-10 text-stone-900 absolute bottom-2 right-3" />
-              <StarburstOrnament className="w-6 h-6 text-red-700 absolute top-3 right-8" />
-              <StarburstOrnament className="w-6 h-6 text-amber-500 absolute bottom-8 left-3" />
+              <DotGridOrnament className="w-14 h-10 text-red-700 absolute top-0 left-3 pointer-events-none" />
+              <DotGridOrnament className="w-14 h-10 text-stone-900 absolute bottom-2 right-3 pointer-events-none" />
+              <StarburstOrnament className="w-6 h-6 text-red-700 absolute top-3 right-8 animate-star-twinkle pointer-events-none" />
+              <StarburstOrnament className="w-6 h-6 text-amber-500 absolute bottom-8 left-3 animate-star-twinkle-delayed pointer-events-none" />
 
-              <div className="relative z-10 w-[94%] h-[94%] flex items-center justify-center">
+              <div
+                className={`relative z-10 w-[94%] h-[94%] flex items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  activeHighlight ? activeHighlight.plateTransform : 'rotate-0 scale-100'
+                }`}
+              >
                 <Image
                   src="/images/ayam-goreng-bawang-plate.png"
                   alt="Sajian Ayam Goreng Bawang Special Ayam Cedepe lengkap dengan kremesan, bawang utuh goreng, tahu, tempe, dan sambal bawang"
                   fill
                   sizes="(max-width: 1024px) 85vw, 500px"
-                  className="object-contain drop-shadow-[0_24px_32px_rgba(28,25,23,0.3)]"
+                  className={`object-contain scale-[0.97] transition-[transform,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] drop-shadow-[0_24px_32px_rgba(28,25,23,0.3)] ${
+                    activeHighlight ? 'brightness-[0.82]' : 'brightness-95'
+                  }`}
                   priority
                 />
+
+                {DISH_HIGHLIGHTS.map((item, idx) => {
+                  const isActive = activeIndex === idx;
+                  return (
+                    <div
+                      key={item.id}
+                      aria-hidden="true"
+                      style={{ transformOrigin: item.transformOrigin }}
+                      className={`absolute inset-0 pointer-events-none transition-[transform,opacity,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                        isActive
+                          ? `z-20 opacity-100 ${item.popTransform} brightness-105 drop-shadow-[0_28px_24px_rgba(28,25,23,0.6)]`
+                          : activeHighlight !== null
+                            ? 'z-10 opacity-85 scale-[0.98] brightness-90 drop-shadow-[0_6px_10px_rgba(28,25,23,0.2)]'
+                            : 'z-10 opacity-100 scale-100 brightness-100 drop-shadow-[0_14px_18px_rgba(28,25,23,0.34)]'
+                      }`}
+                    >
+                      <div
+                        style={{
+                          transformOrigin: item.transformOrigin,
+                          animationDelay: isActive ? '0ms' : `${idx * 350}ms`,
+                        }}
+                        className={`absolute inset-0 ${isActive ? 'animate-dish-active-bob' : 'animate-dish-wave'}`}
+                      >
+                        <Image
+                          src={item.layerSrc}
+                          alt=""
+                          fill
+                          sizes="(max-width: 1024px) 85vw, 500px"
+                          className="object-contain"
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {DISH_HIGHLIGHTS.map((item, idx) => (
+                  <button
+                    key={`hit-${item.id}`}
+                    type="button"
+                    onMouseEnter={() => setActiveIndex(idx)}
+                    onMouseLeave={() => setActiveIndex(null)}
+                    onClick={() =>
+                      setActiveIndex((prev) => (prev === idx ? null : idx))
+                    }
+                    aria-label={`Sorot ${item.title}`}
+                    className={`absolute ${item.hitBoxClass} z-30 cursor-pointer bg-transparent focus-visible:outline-red-700`}
+                  />
+                ))}
               </div>
+
+              {activeHighlight && (
+                <div
+                  key={activeHighlight.id}
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute ${activeHighlight.badgePosClass} z-30 animate-callout-pop bg-stone-900 text-white border-2 border-amber-400 rounded-xl px-3 py-1 text-xs font-extrabold whitespace-nowrap shadow-md flex items-center gap-2`}
+                >
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-600" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-400" />
+                  </span>
+                  <span>{activeHighlight.shortTag}</span>
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="lg:col-span-3 order-2 lg:order-3 flex flex-col items-start">
+          <div
+            className="lg:col-span-3 order-2 lg:order-3 flex flex-col items-start animate-hero-fade-up"
+            style={{ animationDelay: '220ms' }}
+          >
             <span className="text-[11px] font-extrabold tracking-widest uppercase text-red-700 mb-2">
               Pilihan Paket
             </span>
@@ -175,11 +366,11 @@ export function HeroSection() {
               {HERO_PACKAGES.map((pkg) => (
                 <div
                   key={pkg.id}
-                  className="py-3.5 flex items-baseline justify-between gap-3"
+                  className="group py-3.5 flex items-baseline justify-between gap-3 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hover:translate-x-1"
                 >
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-sm sm:text-base font-extrabold text-stone-900">
+                      <span className="text-sm sm:text-base font-extrabold text-stone-900 group-hover:text-red-700 transition-colors duration-200">
                         {pkg.name}
                       </span>
                       {pkg.badge && (
@@ -202,14 +393,14 @@ export function HeroSection() {
             <div className="w-full flex flex-col sm:flex-row lg:flex-col gap-2.5">
               <Link
                 href="/pesan"
-                className="min-h-[48px] w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold text-base shadow-sm transition-colors"
+                className="animate-cta-attention min-h-[48px] w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold text-base shadow-sm hover:-translate-y-0.5 active:scale-[0.97] transition-[transform,background-color] duration-150 ease-[cubic-bezier(0.22,1,0.36,1)]"
               >
                 <WhatsAppIcon className="w-5 h-5 shrink-0" />
                 <span>Pesan Sekarang</span>
               </Link>
               <a
                 href="#menu"
-                className="min-h-[48px] w-full inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-white hover:bg-red-700 text-red-700 hover:text-white font-bold text-sm border-2 border-red-700 transition-colors"
+                className="min-h-[48px] w-full inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-white hover:bg-red-700 text-red-700 hover:text-white font-bold text-sm border-2 border-red-700 hover:-translate-y-0.5 active:scale-[0.97] transition-[transform,background-color,color] duration-150 ease-[cubic-bezier(0.22,1,0.36,1)]"
               >
                 Lihat Menu &amp; Harga
               </a>

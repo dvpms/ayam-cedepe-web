@@ -35,26 +35,159 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 
-@keyframes plateReveal {
+@keyframes heroFadeUp {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(14px) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
+}
+
+@keyframes plateServe {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.92) rotate(-6deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes float3D {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+@keyframes orbitSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulseRing {
+  0% {
+    transform: scale(0.84);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.06);
+    opacity: 0;
+  }
+}
+
+@keyframes radarPing {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
+@keyframes calloutPop {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes starTwinkle {
+  0%, 100% {
+    transform: scale(0.88) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.16) rotate(15deg);
+  }
+}
+
+@keyframes ctaPulseGlow {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes dishWave {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0) scale(1.11);
+  }
+}
+
+@keyframes dishActiveBob {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0) scale(1.06) rotate(1.5deg);
+  }
+}
+
+.animate-hero-fade-up {
+  animation: heroFadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .animate-plate-reveal {
-  animation: plateReveal 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: plateServe 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  .animate-plate-reveal {
-    animation: none;
-  }
+.animate-float-3d {
+  animation: float3D 4.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.animate-orbit-spin {
+  animation: orbitSpin 22s linear infinite;
+}
+
+.animate-pulse-ring {
+  animation: pulseRing 3s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.animate-radar-ping {
+  animation: radarPing 1.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.animate-callout-pop {
+  animation: calloutPop 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-dish-wave {
+  animation: dishWave 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.animate-dish-active-bob {
+  animation: dishActiveBob 1.5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.animate-star-twinkle {
+  animation: starTwinkle 3s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.animate-star-twinkle-delayed {
+  animation: starTwinkle 3s cubic-bezier(0.45, 0, 0.55, 1) 1.5s infinite;
+}
+
+.animate-cta-attention {
+  animation: ctaPulseGlow 2.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
