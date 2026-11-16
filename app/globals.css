@@ -1,26 +1,306 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FAF8F5;
+  --foreground: #1C1917;
+  --brand-red: #C62828;
+  --brand-red-dark: #991B1B;
+  --brand-gold: #F59E0B;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-plus-jakarta), system-ui, sans-serif;
+  --font-display: var(--font-plus-jakarta), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #FAF8F5;
+  color: #1C1917;
+  overflow-x: hidden;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #C62828;
+  outline-offset: 2px;
+}
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes plateServe {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.92) rotate(-6deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes float3D {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+@keyframes orbitSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulseRing {
+  0% {
+    transform: scale(0.84);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.06);
+    opacity: 0;
+  }
+}
+
+@keyframes radarPing {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
+@keyframes calloutPop {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes starTwinkle {
+  0%, 100% {
+    transform: scale(0.88) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.16) rotate(15deg);
+  }
+}
+
+@keyframes ctaPulseGlow {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes dishWave {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0) scale(1.11);
+  }
+}
+
+@keyframes dishActiveBob {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0) scale(1.06) rotate(1.5deg);
+  }
+}
+
+.animate-hero-fade-up {
+  animation: heroFadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-plate-reveal {
+  animation: plateServe 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
+}
+
+.animate-float-3d {
+  animation: float3D 4.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.animate-orbit-spin {
+  animation: orbitSpin 22s linear infinite;
+}
+
+.animate-pulse-ring {
+  animation: pulseRing 3s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.animate-radar-ping {
+  animation: radarPing 1.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.animate-callout-pop {
+  animation: calloutPop 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-dish-wave {
+  animation: dishWave 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.animate-dish-active-bob {
+  animation: dishActiveBob 1.5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.animate-star-twinkle {
+  animation: starTwinkle 3s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.animate-star-twinkle-delayed {
+  animation: starTwinkle 3s cubic-bezier(0.45, 0, 0.55, 1) 1.5s infinite;
+}
+
+.animate-cta-attention {
+  animation: ctaPulseGlow 2.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes curtainWipeRed {
+  0% {
+    transform: translate3d(0, 0%, 0);
+  }
+  100% {
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+@keyframes curtainWipeGold {
+  0% {
+    transform: translate3d(0, 0%, 0);
+  }
+  100% {
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes badgeFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -3px, 0) scale(1.03);
+  }
+}
+
+@keyframes chiliWiggle {
+  0%, 100% {
+    transform: rotate(-8deg) scale(1);
+  }
+  50% {
+    transform: rotate(10deg) scale(1.14);
+  }
+}
+
+@keyframes numberBump {
+  0% {
+    transform: scale(0.8);
+  }
+  55% {
+    transform: scale(1.22);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes drawerSlideDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.animate-curtain-red {
+  animation: curtainWipeRed 0.38s cubic-bezier(0.76, 0, 0.24, 1) 0.04s forwards;
+}
+
+.animate-curtain-gold {
+  animation: curtainWipeGold 0.46s cubic-bezier(0.76, 0, 0.24, 1) 0.09s forwards;
+}
+
+.animate-page-enter {
+  animation: pageEnter 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+.animate-badge-float {
+  animation: badgeFloat 2.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.animate-chili-wiggle {
+  animation: chiliWiggle 1.6s ease-in-out infinite;
+}
+
+.animate-number-bump {
+  animation: numberBump 0.26s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-drawer-down {
+  animation: drawerSlideDown 0.24s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-modal-pop {
+  animation: modalPop 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
